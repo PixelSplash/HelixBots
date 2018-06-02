@@ -114,10 +114,10 @@ sess.run(init)
 ###     find cost and reiterate to minimize
     
 for epoch in range(epochs):
-    avg_cost = 0
+    acost = 0
     _,c = sess.run([optimizer, cost], feed_dict = {x: train_x, y: train_y})        
-    cost = c       
-    print ("Epoch:", (epoch+1), "cost =", "{:.5f}".format(cost))
+    acost = c       
+    print ("Epoch:", (epoch+1), "cost =", "{:.5f}".format(acost))
     
 print ("\nTraining complete!")
     

@@ -59,7 +59,8 @@ public class networkSocket : MonoBehaviour
             {
                 writeSocket(key_stroke);
             }
-            received_data = readSocket();
+
+            received_data = readSocket(); // If there is something to read
             Debug.Log(received_data);
             if (received_data != "")
             {
@@ -80,13 +81,14 @@ public class networkSocket : MonoBehaviour
     }
 
     
-
+    // Function for Bot Usage
     public void sendData(string str)
     {
         dataReady = false;
         key_stroke = str;
     }
 
+    // Function for Bot Usage
     public string getData()
     {
         if (dataReady)
@@ -109,6 +111,7 @@ public class networkSocket : MonoBehaviour
         closeSocket();
     }
 
+    // Socket Initial Setup
     public void setupSocket()
     {
         try
@@ -128,6 +131,7 @@ public class networkSocket : MonoBehaviour
         }
     }
 
+    // Send str to client
     public void writeSocket(string line)
     {
         if (!socket_ready)
@@ -138,6 +142,7 @@ public class networkSocket : MonoBehaviour
         key_stroke = null;
     }
 
+    // Read str from client
     public String readSocket()
     {
         if (!socket_ready)
@@ -155,7 +160,7 @@ public class networkSocket : MonoBehaviour
           
                 numberOfBytesRead = net_stream.Read(myReadBuffer, 0, myReadBuffer.Length);
           
-                myCompleteMessage.AppendFormat("{0}", Encoding.UTF8.GetString(myReadBuffer, 0, numberOfBytesRead));
+                myCompleteMessage.AppendFormat("{0}", Encoding.UTF8.GetString(myReadBuffer, 0, numberOfBytesRead)); // python client ask for encoded data only
                 // Print out the received message to the console.
                 Debug.Log("You received the following message : " +
                                              myCompleteMessage);

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject PlayerImage;
     private GameObject Popup;
 
+
+    // Player variables
     [SerializeField]
     public int _playerId;
     [SerializeField]
@@ -45,28 +47,22 @@ public class PlayerController : MonoBehaviour {
     public Animator _cameraAnimator;
 
     private bool _horizontalParticlesDisplayed = true;
-    
-
     private const float MINIMUM_VERTICAL_SPEED = 2.0f;
-
     private const float IDLE_TIME_DEATH = 3.0f;
-
     public Rigidbody2D _rigidbody;
     private int _started = 0;
     private float _tmp;
     private Vector3 _playerViewportPos;
     public Camera cam;
     public Player _player;
-
     private float _timingDeath;
-
     private float _xAxisValue;
     private float _yAxisValue;
     private bool atk;
     private float _angle;
     private string _name;
     private int _consecutiveKills = 0;
-    networkSocket nt;
+    networkSocket nt; // Network Socket
     public string Name
     {
         get
@@ -89,6 +85,7 @@ public class PlayerController : MonoBehaviour {
     private float next_move;
     private float move_freq = 0.1f;
 
+    // Basic Functions
     public bool Dead
     {
         get
@@ -122,7 +119,6 @@ public class PlayerController : MonoBehaviour {
     
     void Awake() {
         
-        //_playerImage = transform.Find("PlayerImage").gameObject;
         _player = ReInput.players.GetPlayer(_playerId);
         _rigidbody = GetComponent<Rigidbody2D>();
         cam = Camera.main;
@@ -137,7 +133,7 @@ public class PlayerController : MonoBehaviour {
     void Start()
     {
         dataSended = false;
-        nt = FindObjectOfType<networkSocket>();
+        nt = FindObjectOfType<networkSocket>(); // Find Network Socket
         _consecutiveKills = 0;
         em = _particleSystem.emission;
         _playerPath.SetColor(_playerColor);
@@ -152,45 +148,33 @@ public class PlayerController : MonoBehaviour {
         
         
 
-        if (_playerId == 1)
+        if (_playerId == 1) // If player id == 1, Player is Bot
         {
 
-            if (Time.time > next_move)
+            if (Time.time > next_move) // To keep game good performance
             {
-
-
-               
                 next_move = Time.time + move_freq;
 
 
                 string str = "";
-                str = nt.getData();
+                str = nt.getData(); // Ask server for data, If there is not data, str == ""
                 Debug.Log(str);
+
                 if (str != "")
                 {
-                    //Debug.Log(str);
                     string[] arr;
                     arr = str.Split(' ');
-                    _xAxisValue = float.Parse(arr[0], CultureInfo.InvariantCulture.NumberFormat);
-                    _yAxisValue = float.Parse(arr[1], CultureInfo.InvariantCulture.NumberFormat);
-                    if(Math.Abs(float.Parse(arr[2], CultureInfo.InvariantCulture.NumberFormat)) > 0.8 ) atk = true;
+                    _xAxisValue = float.Parse(arr[0], CultureInfo.InvariantCulture.NumberFormat); // Horizontal Predicted Value
+                    _yAxisValue = float.Parse(arr[1], CultureInfo.InvariantCulture.NumberFormat); // Vertical Predicted Value
+                    if (Math.Abs(float.Parse(arr[2], CultureInfo.InvariantCulture.NumberFormat)) > 0.8 ) atk = true; // Shoot Predicted Value and Normalization
                     else atk = false;
 
                 }
-                else
-                {
-                    //dataSended = false;
-                    _yAxisValue = 0.0f;
-                    atk = false;
-                    _xAxisValue = 0.0f;
-                }
 
-                //dataSended = true;
-                string res = GameManager.Instance.getPlayerData(_playerId);
-                //Debug.Log(res);
-                byte[] utf8Bytes = System.Text.Encoding.UTF8.GetBytes(res);
-                //Debug.Log(System.Text.Encoding.UTF8.GetString(utf8Bytes));
-                nt.sendData(res);
+                
+                string res = GameManager.Instance.getPlayerData(_playerId); // Game Manager Search for Complete Player Data
+                byte[] utf8Bytes = System.Text.Encoding.UTF8.GetBytes(res); // Encode Data
+                nt.sendData(res); // Send Data
 
 
                 
