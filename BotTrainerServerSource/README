@@ -1,0 +1,23 @@
+Instrucciones para ejecutar el juego Helix junto con el bot:
+
+- Ejecutar primero el BotTrainerAndServer.py (Python version 3.5)
+Para ejecutar este archivo se requieren los siguientes paquetes adicionales:
+*numpy
+*pandas
+*scipy
+*sklearn
+*tensorflow
+
+- Esperar a que termine de ejecutar e imprima la prediccion.
+
+- Luego abrir el juego, ejecutando el archivo Helix.exe.
+
+- Se puede jugar de un jugador en adelante (se requiere mando/control para computadora)
+
+- El jugador 2 siempre sera el Bot y jugara solo.
+
+Notas: 
+
+No salirse del juego a media pertida, ya que con cada juego se generan mas datos.
+
+Si se quiere volver a abrir el juego, se debe ejecutar nuevamente el archivo BotTrainerAndServer.py al inicio
